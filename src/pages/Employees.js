@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import API from "../utils/API";
-import Card from "../components/Card";
+// import Card from "../components/Card";
+import FriendCard from "../components/FriendCard";
 import Hero from "../components/Hero";
 import Container from "../components/Container";
 import Row from "../components/Row";
@@ -42,7 +43,7 @@ class Employees extends Component {
   render() {
       return (
         <div>
-          <Hero backgroundImage="https://i.imgur.com/qkdpN.jpg">
+          <Hero backgroundImage="/assets/images/employees.png">
             <h1>Employeester</h1>
             <h2>All the employees you've ever wanted</h2>
           </Hero>
@@ -61,23 +62,26 @@ class Employees extends Component {
                   sollicitudin at et metus. 
                 </p>
 
-                {this.state.employees.map((employee, index) => (
-                  <div  key={index}>
-                    <h3 className="text-center">Your Employees!</h3>
+                <h3 className="text-center">Your Employees!</h3>
+                {/* {this.state.employees.map((employee, index) => (
+                  <div key={index}>
                     <Card image={employee.picture.large} />
                     <h3 className="text-center">
-                    Name: {employee.name.first} {employee.name.last}
+                      Name: {employee.name.first} {employee.name.last}
                     </h3>
                   </div>
-                ))}
+                ))} */}
 
-                {/* <div>
-                  <h3 className="text-center">Your Employees!</h3>
-                  <Card image={this.state.image} />
-                  <h3 className="text-center">
-                    Name: {this.state.firstName} {this.state.lastName}
-                  </h3>
-                </div> */}
+              {this.state.employees.map((employee, index) => (
+                <FriendCard
+                  id={index}
+                  key={index}
+                  firstName={employee.name.first}
+                  lastName={employee.name.last}
+                  image={employee.picture.large}
+                />
+              ))}
+
 
               </Col>
             </Row>
