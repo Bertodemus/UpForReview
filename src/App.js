@@ -11,12 +11,9 @@ function App() {
   return (
     <Router>
       <div>
-        {/* <Navbar /> */}
         <Wrapper>
           <Route exact path="/" component={Employees} />
           <Route exact path="/employees" component={Employees} />
-          {/* <Route exact path="/discover" component={Discover} /> */}
-          {/* <Route exact path="/search" component={Search} /> */}
         </Wrapper>
         <Footer />
       </div>
