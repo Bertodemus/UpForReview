@@ -1,11 +1,70 @@
 import React, { Component } from "react";
 import API from "../utils/API";
 // import Card from "../components/Card";
-import FriendCard from "../components/FriendCard";
+// import FriendCard from "../components/FriendCard";
 import Hero from "../components/Hero";
 import Container from "../components/Container";
 import Row from "../components/Row";
 import Col from "../components/Col";
+import BootstrapTable from 'react-bootstrap-table-next';
+
+function cellImage(cell, row) {
+    return (
+      <div>
+        <img src={cell}></img>
+      </div>
+    );
+  }
+
+const products = [
+  {
+    id: 1,
+    name: "Item 1",
+    price: 200
+  },
+  {
+    id: 2,
+    name: "Item 2",
+    price: 300
+  }
+];
+console.log(products);
+const columns = [{
+  dataField: 'picture.thumbnail',
+  text: 'Photo',
+  align: 'center',
+  formatter: cellImage,
+  headerStyle: (colum, colIndex) => {
+    return { width: '90px', textAlign: 'center' };
+  }
+}, {
+  dataField: 'name.first',
+  text: 'First Name',
+  sort: true,
+  align: 'center',
+  headerStyle: (colum, colIndex) => {
+    return { width: '150px', textAlign: 'left' };
+  }
+}, {
+  dataField: 'name.last',
+  text: 'Last Name',
+  sort: true,
+  align: 'center',
+  headerStyle: (colum, colIndex) => {
+    return { width: '150px', textAlign: 'left' };
+  }
+}, {
+  dataField: 'email',
+  text: 'E-Mail',
+  sort: true,
+  align: 'center',
+}, {
+  dataField: 'cell',
+  text: 'Phone',
+  sort: true,
+  align: 'center',
+}
+];
 
 class Employees extends Component {
   state = {
@@ -17,21 +76,8 @@ class Employees extends Component {
     this.loadAllEmployees();
   }
 
-  // loadAllEmployees = () => {
-  //   API.getAllEmployees()
-  //     .then(res =>
-  //       this.setState({
-  //         firstName: res.data.results[0].name.first,
-  //         lastName: res.data.results[0].name.last,
-  //         image: res.data.results[0].picture.large
-  //       })
-  //     )
-  //     .catch(err => console.log(err));
-  // };
-
   loadAllEmployees = () => {
     API.getAllEmployees()
-    // .then(response => response.json())
     .then(res => {
       this.setState({
         employees: res.data.results
@@ -41,20 +87,24 @@ class Employees extends Component {
   };
 
   render() {
+    console.log(this.state.employees);
       return (
         <div>
           <Hero backgroundImage="/assets/images/employees.png">
-            <h1>Employeester</h1>
-            <h2>All the employees you've ever wanted</h2>
+            <h1>Up For Review</h1>
+            <h2>All your employees in a single view!</h2>
           </Hero>
           <Container style={{ marginTop: 30 }}>
             <Row>
               <Col size="md-12">
-                <h1>Welcome To Employeester!</h1>
+                <h2>Welcome To Up For Review!</h2>
               </Col>
             </Row>
             <Row>
               <Col size="md-12">
+
+              <BootstrapTable keyField='id' data={ this.state.employees } columns={ columns } striped hover condensed/>
+
                 <p>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc aliquet diam tortor, id
                   consequat mauris ullamcorper eu. Orci varius natoque penatibus et magnis dis
@@ -62,16 +112,32 @@ class Employees extends Component {
                   sollicitudin at et metus. 
                 </p>
 
-                <h3 className="text-center">Your Employees!</h3>
-                {/* {this.state.employees.map((employee, index) => (
-                  <div key={index}>
-                    <Card image={employee.picture.large} />
-                    <h3 className="text-center">
-                      Name: {employee.name.first} {employee.name.last}
-                    </h3>
-                  </div>
-                ))} */}
+                <table className="table table-dark table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Photo</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">E-mail</th>
+                      <th scope="col">Phone Number</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.employees.map((employee, index) => (
+                      <tr>
+                        <th scope="row">{index+1}</th>
+                        <td><img src={employee.picture.thumbnail}></img></td>
+                        <td>{employee.name.first} {employee.name.last}</td>
+                        <td>{employee.email}</td>
+                        <td>{employee.cell}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>           
 
+
+
+                {/* <h3 className="text-center">Your Employees!</h3>
               {this.state.employees.map((employee, index) => (
                 <FriendCard
                   id={index}
@@ -80,7 +146,7 @@ class Employees extends Component {
                   lastName={employee.name.last}
                   image={employee.picture.large}
                 />
-              ))}
+              ))} */}
 
 
               </Col>
